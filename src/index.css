@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+
+@theme {
+  --color-paper: #f4f1eb;
+  --color-ink: #1e211e;
+  --color-muted: #64665f;
+  --color-line: #d7d4cd;
+  --color-moss: #33463e;
+  --color-acid: #d6e05c;
+  --font-serif: Georgia, 'Times New Roman', serif;
+  --font-sans: 'DM Sans', 'Manrope', sans-serif;
+  
+  --breakpoint-sm: 30rem;
+  --breakpoint-lg: 51.25rem;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    color-scheme: light;
+  }
+  body {
+    margin: 0;
+    min-width: 320px;
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+  }
+  button { cursor: pointer; }
+  :focus-visible {
+    outline: 2px solid var(--color-moss);
+    outline-offset: 4px;
+  }
+  .zoom-dialog :focus-visible { outline-color: white; }
+}
+
+
+.page-container {
+  width: 90%;
+  max-width: 1500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.product-photo { aspect-ratio: 1 / 1.04; }
+.purchase-options { grid-template-columns: 1fr 140px; }
+.zoom-image { max-width: 75%; max-height: 65vh; }
+.zoom-dialog::backdrop { background: rgba(0, 0, 0, 0.8); }
+.cart-dialog[open] { display: flex; }
+.cart-dialog::backdrop { background: rgba(0, 0, 0, 0.45); }
+
+@media (min-width: 820px) {
+  .product-photo { aspect-ratio: 1 / 1.13; }
+}
+
+@media (max-width: 380px) {
+  .purchase-options { grid-template-columns: 1fr; }
+}
+
+
+input[type="number"] { appearance: textfield; }
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button { appearance: none; margin: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+.cart-flight {
+  position: fixed;
+  width: 16px;
+  height: 16px;
+  z-index: 60;
+  border-radius: 50%;
+  background: var(--color-acid);
+  border: 2px solid var(--color-moss);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+  animation: fly-to-cart 750ms ease-in-out both;
+}
+
+@keyframes fly-to-cart {
+  0% { transform: translate(0, 0) scale(1); opacity: 1; }
+  50% { transform: translate(var(--mid-x), var(--mid-y)) scale(0.8); opacity: 1; }
+  100% { transform: translate(var(--end-x), var(--end-y)) scale(0.2); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cart-flight { display: none; }
+}
